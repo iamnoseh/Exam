@@ -2,16 +2,16 @@ namespace Service.UserService;
 using Infrustructure.Common;
 using Model;
 using Npgsql;
-
+using System.Collections.Generic;
 public class UserService(string connectionString) : IUserService
 {
-    public void AddUser(User user, string tableName)
+    public void AddUser(Users user, string tableName)
     {
         using (var connection = NgpsqlHelper.CreateConnection(connectionString))
         {
             var command = new NgpsqlCommand($"INSERT INTO {tableName} (UserId,Name,Email,PasswordHash,Role,CreatedAt) " +
                                             $"values(@UserId,@Name,@Email,@PasswordHash,@Role,@CreatedAt)",connection);
-            command.parseArgs.AddWithValue("UserId", user.Id);
+            command.parseArgs.AddWithValue("UserId", user.UserId);
             command.Parameters.AddWithValue("Name", user.Name);
             command.Parameters.AddWithValue("Email", user.Email);
             command.Parameters.AddWithValue("PasswordHash", user.PasswordHash);
@@ -30,9 +30,9 @@ public class UserService(string connectionString) : IUserService
         }
     }
 
-    public List<User> GetUsersById(int id, string tableName)
+    public List<Users> GetUsersById(int id, string tableName)
     {
-        List<User> users = new List<User>();
+        List<Users> users = new List<Users>();
         using (var connection = NgpsqlHelper.CreateConnection(connectionString))
         {
             var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE id = @id", connection);
@@ -44,7 +44,7 @@ public class UserService(string connectionString) : IUserService
                 {
                     while (reader.Read())
                     {
-                        User user = new User()
+                        Users user = new Users()
                         {
                             UserId = reader.GetInt32(0),
                             Name = reader.GetString(1),
@@ -61,7 +61,7 @@ public class UserService(string connectionString) : IUserService
         return users;
     }
 
-    public void UpdateUsers(User user, string tableName)
+    public void UpdateUsers(Users user, string tableName)
     {
         using (var connection = NgpsqlHelper.CreateConnection(connectionString))
         {

@@ -3,8 +3,8 @@ using Model;
 
 public interface IUserService
 {
-    void AddUser(User user, string TableName);
+    void AddUser(Users user, string tableName);
     void DeleteUser(int id);
     List<string> GetUserById(int id);
-    void UpdateUser(User user, string TableName);
+    void UpdateUser(Users user, string tableName);
 }
