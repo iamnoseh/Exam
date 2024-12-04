@@ -1,6 +1,13 @@
+using Npgsql;
+
 namespace Infrustructure.Common;
 
-public class NpgsqlHelper
+public static class NpgsqlHelper
 {
-    
+    public static NpgsqlConnection CreateConnection(string connectionString)
+    {
+        NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+        connection.Open();
+        return connection;
+    }
 }
