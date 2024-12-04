@@ -76,3 +76,13 @@ public class UserService(string connectionString) : IUserService
         }
     }
 }
+
+file static class SqlCommands
+{
+    public const string ConnectionString =
+        "Server = localhost; Port = 5432; Database = postgres; username = postgres; password=LMard1909;";
+
+    // public const string CreateDatabase = $"Create database {databaseName};";
+    public const string DropDatabase = "Drop database @databaseName with(force);";
+    public const string DropTable = "Drop table @tableName;";
+}

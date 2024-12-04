@@ -1,5 +1,4 @@
 namespace Service;
-
 using System.Security.Cryptography.X509Certificates;
 using Infrustructure.Common;
 using Npgsql;
@@ -76,3 +75,4 @@ public static class NpgsqlService
           }
     }
 }
+
