@@ -5,13 +5,14 @@ using Npgsql;
 
 public class UserService(string connectionString) : IUserService
 {
-    public void AddUser(User user, string tableName)
+    public void AddUser(Users user, string tableName)
     {
+        
         using (var connection = NgpsqlHelper.CreateConnection(connectionString))
         {
             var command = new NgpsqlCommand($"INSERT INTO {tableName} (UserId,Name,Email,PasswordHash,Role,CreatedAt) " +
                                             $"values(@UserId,@Name,@Email,@PasswordHash,@Role,@CreatedAt)",connection);
-            command.parseArgs.AddWithValue("UserId", user.Id);
+            command.parseArgs.AddWithValue("UserId", user.UserId);
             command.Parameters.AddWithValue("Name", user.Name);
             command.Parameters.AddWithValue("Email", user.Email);
             command.Parameters.AddWithValue("PasswordHash", user.PasswordHash);
