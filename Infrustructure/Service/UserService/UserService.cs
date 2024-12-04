@@ -8,10 +8,6 @@ public class UserService(string connectionString) : IUserService
     public void AddUser(Users user, string tableName)
     {
 
-        {
-            var command = new NpgsqlCommand($"INSERT INTO {tableName} (UserId,Name,Email,PasswordHash,Role,CreatedAt) " +
-                                            $"values(@UserId,@Name,@Email,@PasswordHash,@Role,@CreatedAt)",connection);
-
             command.Parameters.AddWithValue("Name", user.Name);
             command.Parameters.AddWithValue("Email", user.Email);
             command.Parameters.AddWithValue("PasswordHash", user.PasswordHash);
