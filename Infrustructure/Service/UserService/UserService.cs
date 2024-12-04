@@ -7,11 +7,11 @@ public class UserService(string connectionString) : IUserService
 {
     public void AddUser(Users user, string tableName)
     {
-        using (var connection = NgpsqlHelper.CreateConnection(connectionString))
+        using (var connection = NpgsqlHelper.CreateConnection(connectionString))
         {
-            var command = new NgpsqlCommand($"INSERT INTO {tableName} (UserId,Name,Email,PasswordHash,Role,CreatedAt) " +
+            var command = new NpgsqlCommand($"INSERT INTO {tableName} (UserId,Name,Email,PasswordHash,Role,CreatedAt) " +
                                             $"values(@UserId,@Name,@Email,@PasswordHash,@Role,@CreatedAt)",connection);
-            command.parseArgs.AddWithValue("UserId", user.UserId);
+            command.Parameters.AddWithValue("UserId", user.UserId);
             command.Parameters.AddWithValue("Name", user.Name);
             command.Parameters.AddWithValue("Email", user.Email);
             command.Parameters.AddWithValue("PasswordHash", user.PasswordHash);
@@ -22,9 +22,9 @@ public class UserService(string connectionString) : IUserService
 
     public void DeleteUser(int id,string tableName)
     {
-        using (var connection = NgpsqlHelper.CreateConnection(connectionString))
+        using (var connection = NpgsqlHelper.CreateConnection(connectionString))
         {
-            var command = new NgpsqlCommand($"DELETE FROM Users WHERE UserId = @UserId", connection);
+            var command = new NpgsqlCommand($"DELETE FROM {tableName} WHERE UserId = @UserId", connection);
             command.Parameters.AddWithValue("UserId", id);
             command.ExecuteNonQuery();
         }
@@ -33,7 +33,7 @@ public class UserService(string connectionString) : IUserService
     public List<Users> GetUsersById(int id, string tableName)
     {
         List<Users> users = new List<Users>();
-        using (var connection = NgpsqlHelper.CreateConnection(connectionString))
+        using (var connection = NpgsqlHelper.CreateConnection(connectionString))
         {
             var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE id = @id", connection);
             command.Parameters.AddWithValue("id", id);
@@ -63,7 +63,7 @@ public class UserService(string connectionString) : IUserService
 
     public void UpdateUsers(Users user, string tableName)
     {
-        using (var connection = NgpsqlHelper.CreateConnection(connectionString))
+        using (var connection = NpgsqlHelper.CreateConnection(connectionString))
         {
             var command = new NpgsqlCommand($"UPDATE {tableName} SET Name = @Name, Email = @Email, PasswordHash = @PasswordHash, Role = @Role WHERE UserId = @UserId", connection);
             command.Parameters.AddWithValue("UserId", user.UserId);
